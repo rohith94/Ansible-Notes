@@ -1,0 +1,7 @@
+---
+- name: test to create a file
+  hosts:
+    - carbon14
+  tasks:
+    - name: Create file
+      file: path=/tmp/yalao state=touch

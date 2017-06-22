@@ -1,0 +1,27 @@
+---
+- name: functionality test of ansible
+  hosts:
+          - all
+# escalate permission to root 
+  remote_user: root
+#tasks
+  tasks:
+          - name: add cache dir
+            file:
+                    path: opt/cache
+                    state: directory
+#this is kind of apt-get update
+          - name: ensure package cache is up to date
+            action : apt update_cache=yes cache_valid_time=3600
+#install desired packages using apt module
+          - name: install package vim
+            action : apt pkg=vim state=latest
+          - name : install apache2 web server
+            action : apt pkg=apache2 state=latest
+#state -> latest  = will get latest version of package
+#state -> absent  = will remove the package if present
+#state -> present = will check the presence of package if package is not installed then it will get default version of package
+
+        #service action
+          - name : start service
+            service: name=apache2 state=stopped
