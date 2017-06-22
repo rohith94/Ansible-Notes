@@ -1,0 +1,41 @@
+---
+- name: ask for sudo password from user and escalate permission to sudo
+  hosts:
+          - servers
+# make a prompt to obtain sudo password
+  vars_prompt:
+          - name: "sudo_password"
+            prompt: "SUDO PASSWORD"
+            private: yes
+  tasks:
+
+          #set sudo password
+          - set_fact:
+                  ansible_sudo_pass: "{{ sudo_password }}"
+
+          #task without sudo access
+          - name: ping without sudo acess
+            action: ping
+
+          #create a cache directory with sudo access
+          - name: add cache directory
+            become: yes
+            become_method: sudo
+            file:
+                    path: /opt/cache
+
+          #install a package using apt module
+
+          - name: install nginx
+            become: yes
+            become_method: sudo
+            apt:
+                    name: nginx
+                    state: latest
+
+          - name: install htop
+            become: yes
+            become_method: sudo
+            apt:
+                    name: htop
+                    state: latest
