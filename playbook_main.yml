@@ -1,0 +1,23 @@
+---
+- name: intialize the process
+  hosts: [servers]
+  vars_prompt:
+          - name: "sudo_password"
+            prompt: "SUDO_PASSWORD"
+            private: yes
+  tasks:
+          - set_fact:
+                  ansible_sudo_pass: "{{ sudo_password }}"
+
+- name: call common roles
+  hosts: [servers]
+  become: yes
+  become_method: sudo
+  roles:
+          - role: common
+- name: call apache role
+  hosts: [servers]
+  become: yes
+  become_method: sudo
+  roles:
+          - role: webserver

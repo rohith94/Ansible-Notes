@@ -1,0 +1,10 @@
+---
+- name: main.yml -> install nginx
+  apt:
+          name: nginx
+          state: latest
+- name: main.yml -> change state of nginx state
+  service:
+          name: nginx
+          state: restarted
+  notify: change nginx

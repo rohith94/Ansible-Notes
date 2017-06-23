@@ -1,0 +1,9 @@
+---
+- name: try handlers
+  hosts:
+          - servers
+  handlers:
+          - name: restart nginx
+            service:
+                    name: bind9
+                    state: started
